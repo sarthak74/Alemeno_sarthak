@@ -20,7 +20,7 @@ class ClickPicPage extends StatefulWidget {
 class _ClickPicPageState extends State<ClickPicPage> {
   dynamic _image;
   final _picker = ImagePicker();
-  bool loadingImage = false;
+  bool loadingImage = false, uploadingImage = false;
   ImageSource source = ImageSource.gallery;
   UploadTask? task;
 
@@ -208,23 +208,31 @@ class _ClickPicPageState extends State<ClickPicPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
                               ElevatedButton(
-                                onPressed: () async {
-                                  await uploadFile(_image!);
-                                  await NotificationService().Notify(
-                                      "Thank you for sharing food with me");
-                                  await showGeneralDialog(
-                                    context: context,
-                                    pageBuilder: (BuildContext buildContext,
-                                        Animation<double> animation,
-                                        Animation<double> secondaryAnimation) {
-                                      return const GoodjobDialog();
-                                    },
-                                  );
+                                onPressed: uploadingImage
+                                    ? null
+                                    : () async {
+                                        setState(() {
+                                          uploadingImage = true;
+                                        });
+                                        await uploadFile(_image!);
+                                        await NotificationService().Notify(
+                                            "Thank you for sharing food with me");
+                                        await showGeneralDialog(
+                                          context: context,
+                                          pageBuilder:
+                                              (BuildContext buildContext,
+                                                  Animation<double> animation,
+                                                  Animation<double>
+                                                      secondaryAnimation) {
+                                            return const GoodjobDialog();
+                                          },
+                                        );
 
-                                  setState(() {
-                                    _image = null;
-                                  });
-                                },
+                                        setState(() {
+                                          _image = null;
+                                          uploadingImage = false;
+                                        });
+                                      },
                                 style: ElevatedButton.styleFrom(
                                   primary: Constants().mainGreen,
                                   shape: const CircleBorder(),
@@ -239,11 +247,13 @@ class _ClickPicPageState extends State<ClickPicPage> {
                               if (task != null)
                                 Methods().showUplaodStatus(task!),
                               ElevatedButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    _image = null;
-                                  });
-                                },
+                                onPressed: uploadingImage
+                                    ? null
+                                    : () async {
+                                        setState(() {
+                                          _image = null;
+                                        });
+                                      },
                                 style: ElevatedButton.styleFrom(
                                   primary: Constants().mainGreen,
                                   shape: const CircleBorder(),
@@ -322,10 +332,9 @@ class _ClickPicPageState extends State<ClickPicPage> {
   }
 
   Future uploadFile(File image) async {
-    print("Uploading");
     if (image == null) return;
     final fileName = image!.path.toString().split('/').last;
-    print("filename: $fileName");
+
     final destination = 'files/$fileName';
 
     task = FirebaseApi.uploadFile(destination, image);

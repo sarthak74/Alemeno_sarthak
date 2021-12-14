@@ -9,10 +9,9 @@ import 'package:flutter/material.dart';
 class Methods {
   UploadTask? task;
   Future uploadFile(File image) async {
-    print("Uploading");
     if (image == null) return;
     final fileName = image!.path.toString().split('/').last;
-    print("filename: $fileName");
+
     final destination = 'files/$fileName';
     task = FirebaseApi.uploadFile(destination, image);
     if (task == null) return;
