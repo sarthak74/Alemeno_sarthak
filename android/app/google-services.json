@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "860335717299",
+    "project_id": "alemeno-sarthak",
+    "storage_bucket": "alemeno-sarthak.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860335717299:android:3364ae39301c52240a69c6",
+        "android_client_info": {
+          "package_name": "com.example.alemeno_sarthak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860335717299-cgqv2104u72dp8fsqk9fqfl8i7n0ojhv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAorb7EudE115N0yYRVbVgGziclCdyOIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860335717299-cgqv2104u72dp8fsqk9fqfl8i7n0ojhv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
